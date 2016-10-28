@@ -29,7 +29,7 @@ function getMatches() {
   $('#waiting').append(imgWait);
     
   populateMatches();
-    
+  
   setTimeout(() => {
     
     $('#waiting').empty();
@@ -80,7 +80,7 @@ function singleSearch() {
     
     displayMatches();
       
-    currentIndex += MAX_RESULTS;
+    // currentIndex += MAX_RESULTS;
     
   });
 };
@@ -90,8 +90,7 @@ $nextBtn.click(() => {
   // check if user goes too far to the right
   if (matches.length % MAX_RESULTS !== 0 
   && currentIndex + MAX_RESULTS > matches.length - MAX_RESULTS) {
-      currentIndex += matches.length % MAX_RESULTS;
-      
+    currentIndex += matches.length % MAX_RESULTS;
   } else {
     currentIndex += MAX_RESULTS;
   }
@@ -102,7 +101,9 @@ $nextBtn.click(() => {
 
 $prevBtn.click(() => {
   
-  if (currentIndex === matches.length - MAX_RESULTS) {
+  if (currentIndex === matches.length - MAX_RESULTS && matches.length === MAX_RESULTS * 2) {
+    currentIndex -= MAX_RESULTS;
+  } else if (currentIndex === matches.length - MAX_RESULTS) {
     currentIndex -= matches.length % MAX_RESULTS;
   } else {
     currentIndex -= MAX_RESULTS;
@@ -115,8 +116,6 @@ $prevBtn.click(() => {
 function displayMatches() {
   
   $matchesContainer.empty();
-  
-  let max = (currentIndex + MAX_RESULTS) > matches.length ? (currentIndex + MAX_RESULTS) : matches.length % 5;
   
   for (let i = currentIndex; i < (currentIndex + MAX_RESULTS); i++) {
     
