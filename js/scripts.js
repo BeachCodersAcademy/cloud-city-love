@@ -109,11 +109,11 @@ $prevBtn.click(() => {
     currentIndex -= MAX_RESULTS;
   }
   
-  displayMatches();
+  displayMatches('zoomInLeft');
     
 });
 
-function displayMatches() {
+function displayMatches(animation = 'zoomInRight') {
   
   $matchesContainer.empty();
   
@@ -139,7 +139,7 @@ function displayMatches() {
       <img src="" alt="${name}" />
       <p>Height: ${heightFeet} | Weight: ${weightLb} lb</p>
       <p>Hair Color: ${hairColor} | Skin Color: ${skinColor}</p>
-    `);
+    `).animateCss(animation);
       
   }
   
@@ -187,7 +187,7 @@ function populateMatches() {
   
   for (let i = 1; i <= 9; i++) {
     
-    $.getJSON('http://swapi.co/api/people/?format=json&page=' + i, data => {
+    $.getJSON('https://swapi.co/api/people/?format=json&page=' + i, data => {
       
       let people = data.results;
       
@@ -271,3 +271,12 @@ function cmToFeet(n) {
   var inches = Math.round((realFeet - feet) * 12);
   return feet + "&prime;" + inches + '&Prime;';
 }
+
+$.fn.extend({
+  animateCss: function (animationName) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
+      $(this).removeClass('animated ' + animationName);
+    });
+  }
+});
