@@ -18,6 +18,14 @@ const MAX_RESULTS = 5;
 let matches;
 let currentIndex;
 
+let button;
+
+$('.gender').click(function(){
+
+  button=$(this).attr('gender');
+
+
+});
 
 let imgWait =`<img src="assets/img/bb8.gif" class="wait"><h5 class=text-center>Finding your love!</h5>`;
 
@@ -113,7 +121,7 @@ $prevBtn.click(() => {
 
 });
 
-function displayRandomMale(){
+function displayRandom(){
 
   resetPage();
     for (let i = 1; i <= 9; i++) {
@@ -126,8 +134,11 @@ function displayRandomMale(){
         // check for matching inputs
         people.forEach(person => {
 
+            if (button === 'all') {
+              matches.push(person);
+            }
             // check gender (male, female, or n/a)
-            if (person.gender === 'male') {
+            if (person.gender === button) {
                   console.log(matches);
 
                   matches.push(person);
@@ -150,6 +161,8 @@ function displayRandomMale(){
 
   }, 4000);
   }
+
+
 
 
 function displayMatches() {
@@ -272,10 +285,26 @@ function populateMatches() {
 // Random Button - male //
 $('#random-male-btn').on('click', () => {
   // alert('hi');
-  displayRandomMale();
+  displayRandom();
 });
 
+// Random Button - female //
+$('#random-female-btn').on('click', () => {
+  // alert('hi');
+  displayRandom();
+});
 
+// Random Button - any //
+$('#random-droid-btn').on('click', () => {
+  // alert('hi');
+  displayRandom();
+});
+
+// Random Button - dontcare //
+$('#random-dontcare-btn').on('click', () => {
+  // alert('hi');
+  displayRandom();
+});
 
 
 
