@@ -138,8 +138,8 @@ function displayMatches() {
     $matchesContainer.append(`
       <h2>${i + 1}: ${name}</h2>
       <p><small>${gender}</small></p>
-      <img src="" alt="${name}" />
-      <p>Height: ${heightFeet} | Weight: ${weightLb} lb</p>
+      <img src="" alt="${name}"/>
+      <p>Height: ${heightFeet} <br> Weight: ${weightLb} lb</p>
       <p>Hair Color: ${hairColor} | Skin Color: ${skinColor}</p>
     `);
 
