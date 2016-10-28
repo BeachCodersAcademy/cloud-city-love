@@ -18,6 +18,7 @@ const MAX_RESULTS = 5;
 let matches;
 let currentIndex;
 
+
 let imgWait =`<img src="assets/img/bb8.gif" class="wait"><h5 class=text-center>Finding your love!</h5>`;
 
 $('#find-love-btn').click(() => {getMatches()});
@@ -121,7 +122,7 @@ function displayRandomMale(){
 
         let people = data.results;
 
-        console.log(people);
+        // console.log(people);
         // check for matching inputs
         people.forEach(person => {
 
@@ -139,9 +140,16 @@ function displayRandomMale(){
     }; // / for
 
     setTimeout(() => {
+
+    let randomMatch = matches[Math.floor(Math.random()*matches.length)];
+    // console.log(randomMatch);
+
+    matches = [randomMatch];
+
     displayMatches();
-    , 4000);
-  };
+
+  }, 4000);
+  }
 
 
 function displayMatches() {
