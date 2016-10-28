@@ -89,7 +89,7 @@ function singleSearch() {
 
     displayMatches();
 
-    currentIndex += MAX_RESULTS;
+    // currentIndex += MAX_RESULTS;
 
   });
 };
@@ -99,7 +99,8 @@ $nextBtn.click(() => {
   // check if user goes too far to the right
   if (matches.length % MAX_RESULTS !== 0
   && currentIndex + MAX_RESULTS > matches.length - MAX_RESULTS) {
-      currentIndex += matches.length % MAX_RESULTS;
+
+    currentIndex += matches.length % MAX_RESULTS;
 
   } else {
     currentIndex += MAX_RESULTS;
@@ -110,67 +111,24 @@ $nextBtn.click(() => {
 });
 
 $prevBtn.click(() => {
+  
+  if (currentIndex === matches.length - MAX_RESULTS && matches.length === MAX_RESULTS * 2) {
+    currentIndex -= MAX_RESULTS;
+  } else if (currentIndex === matches.length - MAX_RESULTS) {
 
-  if (currentIndex === matches.length - MAX_RESULTS) {
     currentIndex -= matches.length % MAX_RESULTS;
   } else {
     currentIndex -= MAX_RESULTS;
   }
-
-  displayMatches();
-
+  
+  displayMatches('zoomInLeft');
+    
 });
 
-function displayRandom(){
-
-  resetPage();
-    for (let i = 1; i <= 9; i++) {
-
-      $.getJSON('http://swapi.co/api/people/?format=json&page=' + i, data => {
-
-        let people = data.results;
-
-        // console.log(people);
-        // check for matching inputs
-        people.forEach(person => {
-
-            if (button === 'all') {
-              matches.push(person);
-            }
-            // check gender (male, female, or n/a)
-            if (person.gender === button) {
-                  console.log(matches);
-
-                  matches.push(person);
-
-            } // / gender
-        }); // / forEach
-
-      }); // / getJSON
-
-    }; // / for
-
-    setTimeout(() => {
-
-    let randomMatch = matches[Math.floor(Math.random()*matches.length)];
-    // console.log(randomMatch);
-
-    matches = [randomMatch];
-
-    displayMatches();
-
-  }, 4000);
-  }
-
-
-
-
-function displayMatches() {
-
+function displayMatches(animation = 'zoomInRight') {
+  
   $matchesContainer.empty();
-
-  let max = (currentIndex + MAX_RESULTS) > matches.length ? (currentIndex + MAX_RESULTS) : matches.length % 5;
-
+  
   for (let i = currentIndex; i < (currentIndex + MAX_RESULTS); i++) {
 
     let person = matches[i];
@@ -193,8 +151,8 @@ function displayMatches() {
       <img src="" alt="${name}" />
       <p>Height: ${heightFeet} | Weight: ${weightLb} lb</p>
       <p>Hair Color: ${hairColor} | Skin Color: ${skinColor}</p>
-    `);
-
+    `).animateCss(animation);
+      
   }
 
   displayPaginationButtons();
@@ -225,9 +183,7 @@ function displayPaginationButtons() {
     $prevBtn.addClass('invisible');
   }
 
-
 }
-
 
 function populateMatches() {
   let fromHeight = $fromHeight.val() ? Number($fromHeight.val()) : 0;
@@ -241,9 +197,9 @@ function populateMatches() {
   let skinColor = $skinColor.val() ? $skinColor.val() : 'any';
 
   for (let i = 1; i <= 9; i++) {
-
-    $.getJSON('http://swapi.co/api/people/?format=json&page=' + i, data => {
-
+    
+    $.getJSON('https://swapi.co/api/people/?format=json&page=' + i, data => {
+      
       let people = data.results;
 
       // console.log(people);
@@ -306,16 +262,6 @@ $('#random-dontcare-btn').on('click', () => {
   displayRandom();
 });
 
-
-
-
-
-
-
-
-
-
-
 // Speech to text
 if (annyang) {
   // Let's define our first command. First the text we expect, and then the function it should call
@@ -360,3 +306,12 @@ function cmToFeet(n) {
   var inches = Math.round((realFeet - feet) * 12);
   return feet + "&prime;" + inches + '&Prime;';
 }
+
+$.fn.extend({
+  animateCss: function (animationName) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
+      $(this).removeClass('animated ' + animationName);
+    });
+  }
+});
