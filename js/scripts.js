@@ -1,3 +1,5 @@
+'use strict';
+
 let $fromHeight = $('#from-height');
 let $toHeight = $('#to-height');
 let $fromWeight = $('#from-weight');
@@ -89,8 +91,6 @@ function singleSearch() {
 
     displayMatches();
 
-    // currentIndex += MAX_RESULTS;
-
   });
 };
 
@@ -99,7 +99,7 @@ $nextBtn.click(() => {
   // check if user goes too far to the right
   if (matches.length % MAX_RESULTS !== 0
   && currentIndex + MAX_RESULTS > matches.length - MAX_RESULTS) {
-
+    
     currentIndex += matches.length % MAX_RESULTS;
 
   } else {
@@ -115,7 +115,6 @@ $prevBtn.click(() => {
   if (currentIndex === matches.length - MAX_RESULTS && matches.length === MAX_RESULTS * 2) {
     currentIndex -= MAX_RESULTS;
   } else if (currentIndex === matches.length - MAX_RESULTS) {
-
     currentIndex -= matches.length % MAX_RESULTS;
   } else {
     currentIndex -= MAX_RESULTS;
@@ -128,7 +127,7 @@ $prevBtn.click(() => {
 function displayMatches(animation = 'zoomInRight') {
   
   $matchesContainer.empty();
-  
+
   for (let i = currentIndex; i < (currentIndex + MAX_RESULTS); i++) {
 
     let person = matches[i];
@@ -148,11 +147,10 @@ function displayMatches(animation = 'zoomInRight') {
     $matchesContainer.append(`
       <h2>${i + 1}: ${name}</h2>
       <p><small>${gender}</small></p>
-      <img src="" alt="${name}" />
-      <p>Height: ${heightFeet} | Weight: ${weightLb} lb</p>
+      <img src="" alt="${name}"/>
+      <p>Height: ${heightFeet} <br> Weight: ${weightLb} lb</p>
       <p>Hair Color: ${hairColor} | Skin Color: ${skinColor}</p>
     `).animateCss(animation);
-      
   }
 
   displayPaginationButtons();
@@ -199,7 +197,7 @@ function populateMatches() {
   for (let i = 1; i <= 9; i++) {
     
     $.getJSON('https://swapi.co/api/people/?format=json&page=' + i, data => {
-      
+
       let people = data.results;
 
       // console.log(people);
