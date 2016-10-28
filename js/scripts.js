@@ -124,6 +124,47 @@ $prevBtn.click(() => {
     
 });
 
+function displayRandom(){
+
+  resetPage();
+    for (let i = 1; i <= 9; i++) {
+
+      $.getJSON('https://swapi.co/api/people/?format=json&page=' + i, data => {
+
+        let people = data.results;
+
+        // console.log(people);
+        // check for matching inputs
+        people.forEach(person => {
+
+            if (button === 'all') {
+              matches.push(person);
+            }
+            // check gender (male, female, or n/a)
+            if (person.gender === button) {
+                  console.log(matches);
+
+                  matches.push(person);
+
+            } // / gender
+        }); // / forEach
+
+      }); // / getJSON
+
+    }; // / for
+
+    setTimeout(() => {
+
+    let randomMatch = matches[Math.floor(Math.random()*matches.length)];
+    // console.log(randomMatch);
+
+    matches = [randomMatch];
+
+    displayMatches();
+
+  }, 4000);
+  }
+
 function displayMatches(animation = 'zoomInRight') {
   
   $matchesContainer.empty();
