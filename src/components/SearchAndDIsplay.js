@@ -1,17 +1,15 @@
 import React from 'react';
-// import SpecificSearch from './SpecificSearch';
-// import NameSearch from './NameSearch';
-// import RandomSearch from './RandomSearch';
+import Search from './search/Search';
+import Display from './Display';
 
 export default class SearchAndDisplay extends React.Component {
   render() {
     return (
       <div className="row">
-        {/* <SpecificSearch /> */}
-        <hr />
-        {/* <NameSearch />
-        <hr />
-        <RandomSearch /> */}
+          <Search />
+        <div className="col-md-7">
+          <Display />
+        </div>
       </div>
     );
   }
