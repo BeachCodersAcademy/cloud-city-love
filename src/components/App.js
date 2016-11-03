@@ -1,10 +1,14 @@
 import React from 'react';
+import Header from './Header';
+import SearchAndDisplay from './SearchAndDisplay';
 
 export default class App extends React.Component {
   render() {
     return (
-      <h1>hi</h1>
-      
+      <div className="container">
+        <Header />
+        <SearchAndDisplay />
+      </div>
     );
   }
 }
